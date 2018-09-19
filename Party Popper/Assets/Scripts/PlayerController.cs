@@ -22,8 +22,8 @@ namespace PartyPopper
 
         void Update()
         {
-            _Horizontal = Input.GetAxisRaw("Horizontal");
-            _Vertical = Input.GetAxisRaw("Vertical");
+            _Horizontal = Input.GetAxis("Horizontal");
+            _Vertical = Input.GetAxis("Vertical");
         }
     }
 
