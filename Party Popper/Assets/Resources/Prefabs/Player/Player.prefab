@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4496080099652052}
   - component: {fileID: 33544685530689072}
   - component: {fileID: 23388680581563098}
-  - component: {fileID: 54861108200493290}
   - component: {fileID: 136464683388396854}
   m_Layer: 0
   m_Name: Body
@@ -56,6 +55,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4982451501004924}
+  - component: {fileID: 54670750167639058}
+  - component: {fileID: 114041442558106148}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -189,14 +190,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1729707921903936}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54861108200493290
+--- !u!54 &54670750167639058
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1461375025874188}
+  m_GameObject: {fileID: 1764322669062184}
   serializedVersion: 2
-  m_Mass: 2
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -204,6 +205,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &114041442558106148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1764322669062184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8e5079e7a864a4d96b09ef3e70dd13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135113076044800152
 SphereCollider:
   m_ObjectHideFlags: 1
