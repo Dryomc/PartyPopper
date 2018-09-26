@@ -26,7 +26,7 @@ namespace PartyPopper
             _particleMain = _trailParticleSystem.main;
             _particleTrail = _trailParticleSystem.trails;
 
-            foreach(Material material in GetComponent<Renderer>().materials)
+            foreach (Material material in GetComponent<Renderer>().materials)
             {
                 if (material.name.Equals(_colorableMaterialName))
                 {
@@ -34,6 +34,9 @@ namespace PartyPopper
                     break;
                 }
             }
+
+            if(_colorableMaterial == null)
+                throw new System.NullReferenceException("Material (" + _colorableMaterialName + ") Not Found!");
 
             SetTeam(Team.NONE);
         }
