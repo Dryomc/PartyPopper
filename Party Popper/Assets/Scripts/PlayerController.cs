@@ -73,6 +73,18 @@ namespace PartyPopper
         {
             return Physics.Raycast(transform.position, -transform.up , GetComponent<Renderer>().bounds.extents.y + 0.1f);
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.tag == "Ball")
+            {
+                GameObject ball = collision.gameObject;
+
+                Rigidbody rb = ball.GetComponent<Rigidbody>();
+
+                rb.AddForce(transform.forward * 1000 * Time.deltaTime);
+            }           
+        }
     }
 
 }
