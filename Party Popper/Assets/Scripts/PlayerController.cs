@@ -6,6 +6,7 @@ using XboxCtrlrInput;
 
 namespace PartyPopper
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
         private float _Horizontal;
@@ -19,8 +20,12 @@ namespace PartyPopper
 
         XboxController _Controller;
 
+        Rigidbody _RB;
+
         private void Start()
         {
+            _RB = GetComponent<Rigidbody>();
+
             switch (_Index)
             {
                 case 1:
@@ -44,6 +49,11 @@ namespace PartyPopper
             //transform.Translate(new Vector3(, 0, 0) * 100 * Time.fixedDeltaTime);
 
             transform.Rotate(new Vector3(0, _HorizontalRotation, 0) * 200 * Time.fixedDeltaTime);
+
+            if (IsGrounded())
+            {
+                _RB.AddForce(Vector3.up * 20000 * Time.fixedDeltaTime);
+            }
         }
 
         void Update()
@@ -57,6 +67,11 @@ namespace PartyPopper
         public Vector3 GetNormal()
         {
             return Vector3.forward;
+        }
+
+        private bool IsGrounded()
+        {
+            return Physics.Raycast(transform.position, -transform.up , GetComponent<Renderer>().bounds.extents.y + 0.1f);
         }
     }
 
