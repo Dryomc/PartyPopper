@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 4982451501004924}
   - component: {fileID: 54670750167639058}
   - component: {fileID: 114041442558106148}
+  - component: {fileID: 23571740152959622}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -122,6 +123,41 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 56e85066ef33e7e4abd6883fa46ad742, type: 2}
   - {fileID: 2100000, guid: e3dd5a05db78bae49a6102c5eae2813d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23571740152959622
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1764322669062184}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -216,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8e5079e7a864a4d96b09ef3e70dd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Index: 0
 --- !u!135 &135113076044800152
 SphereCollider:
   m_ObjectHideFlags: 1
