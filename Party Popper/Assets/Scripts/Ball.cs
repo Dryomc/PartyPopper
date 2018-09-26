@@ -8,16 +8,34 @@ namespace PartyPopper
     {
 
         [SerializeField]
-        ParticleSystem _particle;
+        ParticleSystem _trailParticleSystem;
 
         [SerializeField]
-        Material _neon;
+        Material _colorableMaterial;
+
+        Team _team;
+
+        ParticleSystem.MainModule _particleMain;
+        ParticleSystem.TrailModule _particleTrail;
+
+
+        private void Start()
+        {
+            _particleMain = _trailParticleSystem.main;
+            _particleTrail = _trailParticleSystem.trails;
+        }
+
+        public Team GetTeam()
+        {
+            return _team;
+        }
 
         public void SetTeam(Team team)
         {
+            _team = team;
             Color color;
 
-            switch (team)
+            switch (_team)
             {
                 case Team.NONE:
                     color = Color.white;
@@ -44,10 +62,11 @@ namespace PartyPopper
                     break;
             }
 
-            _neon.SetColor("_EmissionColor", color);
+            _particleMain.startColor = color;
+            _particleTrail.colorOverTrail = color;
+            _particleTrail.colorOverLifetime = color;
 
-            ParticleSystem.MainModule main = _particle.main;
-            main.startColor = color;
+            _colorableMaterial.SetColor("_EmissionColor", color);
         }
     }
 }

@@ -12,6 +12,9 @@ namespace PartyPopper
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (!collision.gameObject.tag.Equals("Ball"))
+                return;
+
             Ball ball = collision.gameObject.GetComponent<Ball>();
 
             if (ball != null)
