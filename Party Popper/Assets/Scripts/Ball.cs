@@ -11,6 +11,8 @@ namespace PartyPopper
         ParticleSystem _trailParticleSystem;
 
         [SerializeField]
+        string _colorableMaterialName;
+
         Material _colorableMaterial;
 
         Team _team;
@@ -23,6 +25,17 @@ namespace PartyPopper
         {
             _particleMain = _trailParticleSystem.main;
             _particleTrail = _trailParticleSystem.trails;
+
+            foreach(Material material in GetComponent<Renderer>().materials)
+            {
+                if (material.name.Equals(_colorableMaterialName))
+                {
+                    _colorableMaterial = material;
+                    break;
+                }
+            }
+
+            SetTeam(Team.NONE);
         }
 
         public Team GetTeam()
@@ -33,34 +46,7 @@ namespace PartyPopper
         public void SetTeam(Team team)
         {
             _team = team;
-            Color color;
-
-            switch (_team)
-            {
-                case Team.NONE:
-                    color = Color.white;
-                    break;
-
-                case Team.BLUE:
-                    color = Color.blue;
-                    break;
-
-                case Team.GREEN:
-                    color = Color.green;
-                    break;
-
-                case Team.RED:
-                    color = Color.red;
-                    break;
-
-                case Team.YELLOW:
-                    color = Color.yellow;
-                    break;
-
-                default:
-                    color = Color.white;
-                    break;
-            }
+            Color color = _team.GetColor();
 
             _particleMain.startColor = color;
             _particleTrail.colorOverTrail = color;
