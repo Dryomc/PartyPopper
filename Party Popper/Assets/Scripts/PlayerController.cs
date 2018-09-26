@@ -19,6 +19,7 @@ namespace PartyPopper
             transform.Translate(new Vector3(_Horizontal, 0, _Vertical) * 20 * Time.fixedDeltaTime);
             //transform.Translate(new Vector3(, 0, 0) * 100 * Time.fixedDeltaTime);
 
+            //oof
             transform.Rotate(new Vector3(0, _HorizontalRotation, 0) * 200 * Time.fixedDeltaTime);
         }
 
