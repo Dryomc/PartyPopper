@@ -11,6 +11,5 @@ public class PlayerCircle : MonoBehaviour {
 	void Update () {
         transform.position = new Vector3(_Player.transform.position.x, 3.15f, _Player.transform.position.z);
         transform.rotation = _Player.transform.rotation;
-        
 	}
 }

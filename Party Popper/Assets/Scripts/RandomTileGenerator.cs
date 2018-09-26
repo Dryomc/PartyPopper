@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomTileGenerator : MonoBehaviour {
 
-    [SerializeField]
-    private int _AmountTilesX, _AmountTilesY;
+namespace PartyPopper
+{
+    public class RandomTileGenerator : MonoBehaviour
+    {
 
-    [SerializeField]
-    private GameObject _Tile, _HoleTile;
+        void Start()
+        {
 
-	void Start () {
-		
-	}
-	
-	void Update () {
-		
-	}
+        }
+
+        void Update()
+        {
+
+        }
+    }
 }
+
