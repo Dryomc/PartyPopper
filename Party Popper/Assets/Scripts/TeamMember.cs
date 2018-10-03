@@ -10,6 +10,14 @@ namespace PartyPopper
         [SerializeField]
         Team _team;
 
+        [SerializeField]
+        PlayerCircle _playerCircle;
+
+        private void Start()
+        {
+            _playerCircle.SetTeam(_team);
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (!collision.gameObject.tag.Equals("Ball"))
