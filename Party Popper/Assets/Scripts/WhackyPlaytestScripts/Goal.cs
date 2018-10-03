@@ -28,9 +28,16 @@ public class Goal : MonoBehaviour {
         if (other.gameObject.tag.Equals("Ball"))
         {
             Ball ball = other.gameObject.GetComponent<Ball>();
+            RespawnScript respawn = other.gameObject.GetComponent<RespawnScript>();
+
             Score(ball.GetTeam());
             ball.SetTeam(Team.NONE);
-            RespawnBall(ball);
+            respawn.Respawn();
+        }
+        else if (other.gameObject.tag.Equals("Player"))
+        {
+            RespawnScript respawn = other.gameObject.GetComponent<RespawnScript>();
+            respawn.Respawn();
         }
     }
 
@@ -40,10 +47,5 @@ public class Goal : MonoBehaviour {
         _displayTimer = _displayTime;
         _scoreDisplay.text = team.ToString() + " scored!";
         _scoreDisplay.color = team.GetColor();
-    }
-
-    private void RespawnBall(Ball ball)
-    {
-        ball.gameObject.transform.position = new Vector3(-1294, 1381, -96);
     }
 }

@@ -22,9 +22,12 @@ namespace PartyPopper
 
         Rigidbody _RB;
 
+        private bool _kicking;
+
         private void Start()
         {
             _RB = GetComponent<Rigidbody>();
+            _kicking = false;
 
             switch (_Index)
             {
@@ -61,6 +64,8 @@ namespace PartyPopper
             _Horizontal = XCI.GetAxis(XboxAxis.LeftStickX, _Controller);
             _Vertical = XCI.GetAxis(XboxAxis.LeftStickY, _Controller);
 
+            _kicking = XCI.GetButton(XboxButton.LeftBumper) || XCI.GetButton(XboxButton.RightBumper);
+
             _HorizontalRotation = XCI.GetAxis(XboxAxis.RightStickX, _Controller);
         }
 
@@ -71,7 +76,7 @@ namespace PartyPopper
 
         private bool IsGrounded()
         {
-            return Physics.Raycast(transform.position, -transform.up , GetComponent<Renderer>().bounds.extents.y + 0.1f);
+            return Physics.Raycast(transform.position, -transform.up, 0.1f);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -79,10 +84,10 @@ namespace PartyPopper
             if(collision.gameObject.tag == "Ball")
             {
                 GameObject ball = collision.gameObject;
+                Rigidbody ballBody = ball.GetComponent<Rigidbody>();
 
-                Rigidbody rb = ball.GetComponent<Rigidbody>();
-
-                rb.AddForce(transform.forward * 1000 * Time.deltaTime);
+                if(_kicking)
+                    ballBody.AddForce(transform.forward * (Time.deltaTime * 50));
             }           
         }
     }
