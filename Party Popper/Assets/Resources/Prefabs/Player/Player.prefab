@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 114076386036034598}
   - component: {fileID: 114877186994303140}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,7 +274,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 5
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -291,7 +291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8e5079e7a864a4d96b09ef3e70dd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Index: 1
+  _controller: 0
+  _speed: 20
+  _kickForce: 0.5
+  _bounceForce: 20
 --- !u!114 &114877186994303140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -304,7 +307,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _team: 4
-  _playerCircle: {fileID: 114986534271776994}
 --- !u!114 &114986534271776994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,8 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc8c8226053d1a4081e0fa27da9bcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Player: {fileID: 1651444269612856}
-  _offset: 1375
+  _Player: {fileID: 114877186994303140}
 --- !u!135 &135385964807159924
 SphereCollider:
   m_ObjectHideFlags: 1

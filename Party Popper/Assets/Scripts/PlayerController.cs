@@ -9,69 +9,57 @@ namespace PartyPopper
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
-        private float _Horizontal;
-        private float _Vertical;
-
-        private float _HorizontalRotation;
-        private float _VerticalRotation;
+        [SerializeField]
+        private XboxController _controller;
 
         [SerializeField]
-        private int _Index;
+        private float _speed;
 
-        XboxController _Controller;
+        [SerializeField]
+        private float _kickForce;
 
-        Rigidbody _RB;
+        [SerializeField]
+        private float _bounceForce;
 
+        private Vector3 _movement;
+        private Rigidbody _rigibody;
         private bool _kicking;
 
         private void Start()
         {
-            _RB = GetComponent<Rigidbody>();
+            _rigibody = GetComponent<Rigidbody>();
             _kicking = false;
-
-            switch (_Index)
-            {
-                case 1:
-                    _Controller = XboxController.First;
-                    break;
-                case 2:
-                    _Controller = XboxController.Second;
-                    break;
-                case 3:
-                    _Controller = XboxController.Third;
-                    break;
-                case 4:
-                    _Controller = XboxController.Fourth;
-                    break;
-            } 
+            _movement = Vector3.zero;
         }
 
         void FixedUpdate()
         {
-            transform.Translate(new Vector3(_Horizontal, 0, _Vertical) * 20 * Time.fixedDeltaTime);
-            //transform.Translate(new Vector3(, 0, 0) * 100 * Time.fixedDeltaTime);
-
-            transform.Rotate(new Vector3(0, _HorizontalRotation, 0) * 200 * Time.fixedDeltaTime);
+            if(_movement.x != 0 || _movement.z != 0)
+            {
+                float angle = Mathf.Atan2(-_movement.x, - _movement.z) * Mathf.Rad2Deg;
+                Quaternion rotation = Quaternion.Euler(0, angle, 0);
+                transform.rotation = rotation;
+                transform.position += -transform.forward * _speed * Time.fixedDeltaTime;
+            }
+            
 
             if (IsGrounded())
-            {
-                _RB.AddForce(Vector3.up * 20000 * Time.fixedDeltaTime);
-            }
+                _rigibody.AddForce(Vector3.up * _bounceForce, ForceMode.VelocityChange);
         }
 
         void Update()
         {
-            _Horizontal = XCI.GetAxis(XboxAxis.LeftStickX, _Controller);
-            _Vertical = XCI.GetAxis(XboxAxis.LeftStickY, _Controller);
+            // float x = Input.GetAxis("Horizontal");   // Debug purposes
+            // float z = Input.GetAxis("Vertical");     // Debug purposes
+
+            // _kicking = Input.GetKey(KeyCode.Space);  // Debug purposes
+
+            float x = XCI.GetAxis(XboxAxis.LeftStickX, _controller);
+            float z = XCI.GetAxis(XboxAxis.LeftStickY, _controller);
 
             _kicking = XCI.GetButton(XboxButton.LeftBumper) || XCI.GetButton(XboxButton.RightBumper);
 
-            _HorizontalRotation = XCI.GetAxis(XboxAxis.RightStickX, _Controller);
-        }
-
-        public Vector3 GetNormal()
-        {
-            return Vector3.forward;
+            _movement = new Vector3(x, 0, z);
         }
 
         private bool IsGrounded()
@@ -86,8 +74,12 @@ namespace PartyPopper
                 GameObject ball = collision.gameObject;
                 Rigidbody ballBody = ball.GetComponent<Rigidbody>();
 
-                if(_kicking)
-                    ballBody.AddForce(transform.forward * (Time.deltaTime * 50));
+                if (_kicking)
+                {
+                    ballBody.AddForce(-transform.forward * _kickForce);
+                    ballBody.AddForce(transform.up * _kickForce);
+                    Debug.Log("Kick!");
+                }
             }           
         }
     }

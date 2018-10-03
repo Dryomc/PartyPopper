@@ -22,7 +22,7 @@ namespace PartyPopper
         void Update()
         {
             transform.position = new Vector3(_Player.transform.position.x, _yPos, _Player.transform.position.z);
-            transform.rotation = _Player.transform.rotation;
+            // transform.rotation = _Player.transform.rotation;
         }
 
         public void SetTeam(Team team)
