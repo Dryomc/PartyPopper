@@ -12,9 +12,6 @@ namespace PartyPopper
         private float _Horizontal;
         private float _Vertical;
 
-        private float _HorizontalRotation;
-        private float _VerticalRotation;
-
         [SerializeField]
         private int _Index;
 
@@ -48,11 +45,8 @@ namespace PartyPopper
 
         void FixedUpdate()
         {
-            transform.Translate(new Vector3(_Horizontal, 0, _Vertical) * 20 * Time.fixedDeltaTime);
-            //transform.Translate(new Vector3(, 0, 0) * 100 * Time.fixedDeltaTime);
-
-            transform.Rotate(new Vector3(0, _HorizontalRotation, 0) * 200 * Time.fixedDeltaTime);
-
+            transform.Translate(new Vector3(_Horizontal, 0, _Vertical) * 20 * Time.fixedDeltaTime, Space.World);
+            
             if (IsGrounded())
             {
                 _RB.AddForce(Vector3.up * 20000 * Time.fixedDeltaTime);
@@ -64,22 +58,22 @@ namespace PartyPopper
             _Horizontal = XCI.GetAxis(XboxAxis.LeftStickX, _Controller);
             _Vertical = XCI.GetAxis(XboxAxis.LeftStickY, _Controller);
 
+            Vector3 movement = new Vector3(_Horizontal, 0, _Vertical);
+
             _kicking = XCI.GetButton(XboxButton.LeftBumper) || XCI.GetButton(XboxButton.RightBumper);
 
-            _HorizontalRotation = XCI.GetAxis(XboxAxis.RightStickX, _Controller);
+            if(movement != Vector3.zero)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement.normalized), 0.2f);
+            }
         }
-
-        public Vector3 GetNormal()
-        {
-            return Vector3.forward;
-        }
-
+            
         private bool IsGrounded()
         {
             return Physics.Raycast(transform.position, -transform.up, 0.1f);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
             if(collision.gameObject.tag == "Ball")
             {
@@ -87,7 +81,7 @@ namespace PartyPopper
                 Rigidbody ballBody = ball.GetComponent<Rigidbody>();
 
                 if(_kicking)
-                    ballBody.AddForce(transform.forward * (Time.deltaTime * 50));
+                    ballBody.AddForce(transform.forward * (Time.deltaTime * 10));
             }           
         }
     }
