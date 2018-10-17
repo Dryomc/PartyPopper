@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23736569545637556}
   - component: {fileID: 65580307703884048}
   - component: {fileID: 65757024688749072}
+  - component: {fileID: 114590820921044618}
   m_Layer: 0
   m_Name: DEATHCUBE Lavatile
   m_TagString: DEATHCUBE
@@ -37,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1173083666338958}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1311.3, y: 1324.8, z: -30.478}
+  m_LocalPosition: {x: -1326.9, y: 1327.7, z: -107.7}
   m_LocalScale: {x: 10, y: 8.4755, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,3 +110,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.59999996, y: 3.147342, z: 0.59999996}
   m_Center: {x: 0, y: 1.8992447, z: 0}
+--- !u!114 &114590820921044618
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1173083666338958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a62d43df98d0e44a50d38b7a7232fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tagsToIgnore:
+  - Ball

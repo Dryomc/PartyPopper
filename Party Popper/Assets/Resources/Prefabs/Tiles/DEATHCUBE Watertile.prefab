@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23655948978741832}
   - component: {fileID: 65291347326069482}
   - component: {fileID: 65408515947927056}
+  - component: {fileID: 114223316992793076}
   m_Layer: 0
   m_Name: DEATHCUBE Watertile
   m_TagString: DEATHCUBE
@@ -37,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1127084099707794}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1281.3, y: 1324.8, z: -66.478}
+  m_LocalPosition: {x: -1320.8708, y: 1327.6759, z: -113.69757}
   m_LocalScale: {x: 10, y: 8.4755, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,3 +110,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.59999996, y: 3.147342, z: 0.59999996}
   m_Center: {x: 0, y: 1.8992447, z: 0}
+--- !u!114 &114223316992793076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127084099707794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a62d43df98d0e44a50d38b7a7232fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tagsToIgnore:
+  - Ball
