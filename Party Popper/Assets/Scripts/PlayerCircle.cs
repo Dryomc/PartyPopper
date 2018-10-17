@@ -9,19 +9,19 @@ namespace PartyPopper
     {
 
         [SerializeField]
-        private TeamMember _Player;
+        private TeamMember _player;
 
         private float _yPos;
 
         private void Start()
         {
             _yPos = transform.position.y;
-            SetTeam(_Player.GetTeam());
+            SetTeam(_player.GetTeam());
         }
 
         void Update()
         {
-            transform.position = new Vector3(_Player.transform.position.x, _yPos, _Player.transform.position.z);
+            transform.position = new Vector3(_player.transform.position.x, _yPos, _player.transform.position.z);
             // transform.rotation = _Player.transform.rotation;
         }
 

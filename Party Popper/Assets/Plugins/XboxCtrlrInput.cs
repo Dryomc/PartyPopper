@@ -85,6 +85,13 @@ namespace XboxCtrlrInput
 		
 		// >>> For Buttons <<< //
 		
+        public static void SetVibration(XboxController controller, float left, float right)
+        {
+            PlayerIndex playerIndex = (PlayerIndex)controller;
+            GamePad.SetVibration(playerIndex, left, right);
+        }
+
+
 		/// <summary> 
 		/// 	Returns <c>true</c> if the specified button is held down by any controller. 
 		/// </summary>
