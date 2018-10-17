@@ -7,12 +7,15 @@ using UnityEngine.UI;
 public class Goal : MonoBehaviour {
 
     [SerializeField]
-    public Text _scoreDisplay;
+    private Text _scoreDisplay;
 
     [SerializeField]
-    public float _displayTime;
+    private float _displayTime;
 
     private float _displayTimer;
+
+    public delegate void TeamScore(Team team);
+    public event TeamScore TeamScoreEvent;
 
     private void Update()
     {
@@ -47,5 +50,8 @@ public class Goal : MonoBehaviour {
         _displayTimer = _displayTime;
         _scoreDisplay.text = team.ToString() + " scored!";
         _scoreDisplay.color = team.GetColor();
+
+        if (TeamScoreEvent != null)
+            TeamScoreEvent(team);
     }
 }

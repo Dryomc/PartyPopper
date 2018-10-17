@@ -9,80 +9,129 @@ namespace PartyPopper
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
-        private float _Horizontal;
-        private float _Vertical;
+        [SerializeField]
+        private XboxController _controller;
 
         [SerializeField]
-        private int _Index;
+        private float _speed;
 
-        XboxController _Controller;
+        [SerializeField]
+        private float _kickForce;
 
-        Rigidbody _RB;
+        [SerializeField]
+        private float _bounceForce;
 
-        private bool _kicking;
+        private Vector3 _movement;
+        private float _kickForceMultiplier;
+
+        private Rigidbody _rigibody;
+        private Ball _touchingBall;
+        private bool _isExecutingVibrateRoutine = false;
 
         private void Start()
         {
-            _RB = GetComponent<Rigidbody>();
-            _kicking = false;
+            _rigibody                   = GetComponent<Rigidbody>();
+            _kickForceMultiplier        = 0;
+            _movement                   = Vector3.zero;
+            _touchingBall               = null;
+            _isExecutingVibrateRoutine  = false;
 
-            switch (_Index)
+            // Registering the OnScore function to the Score event of each goal in the scene.
+            GameObject[] goalObjects = GameObject.FindGameObjectsWithTag("Goal");
+            foreach (GameObject goalObject in goalObjects)
             {
-                case 1:
-                    _Controller = XboxController.First;
-                    break;
-                case 2:
-                    _Controller = XboxController.Second;
-                    break;
-                case 3:
-                    _Controller = XboxController.Third;
-                    break;
-                case 4:
-                    _Controller = XboxController.Fourth;
-                    break;
-            } 
+                Goal goal = goalObject.GetComponent<Goal>();
+                goal.TeamScoreEvent += OnScore;
+            }
         }
 
         void FixedUpdate()
         {
-            transform.Translate(new Vector3(_Horizontal, 0, _Vertical) * 20 * Time.fixedDeltaTime, Space.World);
-            
-            if (IsGrounded())
+            // Calculating the facing direction based on the x and y input of a single joystick
+            if(_movement.x != 0 || _movement.z != 0)
             {
-                _RB.AddForce(Vector3.up * 20000 * Time.fixedDeltaTime);
+                float angle = Mathf.Atan2(-_movement.x, -_movement.z) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, angle, 0);
+                transform.position += -transform.forward * _speed * Time.fixedDeltaTime;
             }
+            
+
+            if (IsGrounded())
+                _rigibody.AddForce(Vector3.up * _bounceForce, ForceMode.VelocityChange);
+
+            Kick(_kickForceMultiplier);
         }
 
         void Update()
         {
-            _Horizontal = XCI.GetAxis(XboxAxis.LeftStickX, _Controller);
-            _Vertical = XCI.GetAxis(XboxAxis.LeftStickY, _Controller);
+            // float x = Input.GetAxis("Horizontal");   // Debug purposes
+            // float z = Input.GetAxis("Vertical");     // Debug purposes
 
-            Vector3 movement = new Vector3(_Horizontal, 0, _Vertical);
+            float x = XCI.GetAxis(XboxAxis.LeftStickX, _controller);
+            float z = XCI.GetAxis(XboxAxis.LeftStickY, _controller);
 
-            _kicking = XCI.GetButton(XboxButton.LeftBumper) || XCI.GetButton(XboxButton.RightBumper);
+            if (XCI.GetButton(XboxButton.LeftBumper, _controller) || XCI.GetButton(XboxButton.RightBumper, _controller))
+                _kickForceMultiplier = 1;
+            else
+                _kickForceMultiplier = Mathf.Max(XCI.GetAxis(XboxAxis.RightTrigger, _controller), XCI.GetAxis(XboxAxis.LeftTrigger, _controller)) * 2;
 
-            if(movement != Vector3.zero)
+            _movement = new Vector3(x, 0, z);
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Ball"))
+                _touchingBall = other.gameObject.GetComponent<Ball>();
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Ball"))
+                _touchingBall = null;
+        }
+
+        private void Kick(float forceMultiplier)
+        {
+            if (_touchingBall != null && forceMultiplier > 0)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement.normalized), 0.2f);
+                Rigidbody ballBody = _touchingBall.gameObject.GetComponent<Rigidbody>();
+
+                ballBody.AddForce(-transform.forward * _kickForce);
+                ballBody.AddForce(transform.up * (_kickForce * 0.1f));
             }
         }
-            
+
+        private void OnScore(Team team)
+        {
+            if (gameObject.GetComponent<TeamMember>().GetTeam().Equals(team))
+            {
+                VibrateController(1f, 1f, 1f);
+            }
+        }
+
         private bool IsGrounded()
         {
             return Physics.Raycast(transform.position, -transform.up, 0.1f);
         }
 
-        private void OnCollisionStay(Collision collision)
+        private void VibrateController(float left, float right, float time)
         {
-            if(collision.gameObject.tag == "Ball")
-            {
-                GameObject ball = collision.gameObject;
-                Rigidbody ballBody = ball.GetComponent<Rigidbody>();
+            StartCoroutine(VibrateControllerRoutine(left, right, time));
+        }
 
-                if(_kicking)
-                    ballBody.AddForce(transform.forward * (Time.deltaTime * 10));
-            }           
+        private IEnumerator VibrateControllerRoutine(float left, float right, float time)
+        {
+            if (_isExecutingVibrateRoutine)
+                yield break;
+
+            XCI.SetVibration(_controller, right, left);
+            _isExecutingVibrateRoutine = true;
+
+            yield return new WaitForSeconds(time);
+
+            _isExecutingVibrateRoutine = false;
+
+            XCI.SetVibration(_controller, 0, 0);
         }
     }
 
