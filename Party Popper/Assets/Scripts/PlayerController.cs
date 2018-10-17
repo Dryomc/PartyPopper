@@ -67,7 +67,7 @@ namespace PartyPopper
             return Physics.Raycast(transform.position, -transform.up, 0.1f);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
             if(collision.gameObject.tag == "Ball")
             {
